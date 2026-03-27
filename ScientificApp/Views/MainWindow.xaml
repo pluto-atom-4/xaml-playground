@@ -1,0 +1,17 @@
+﻿<Window x:Class="ScientificApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScientificApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <StackPanel Margin="20">
+        <TextBlock Text="Analysis Tool" FontSize="20" FontWeight="Bold"/>
+        
+        <!-- This binds to the StatusMessage in our ViewModel -->
+        <TextBlock Text="{Binding StatusMessage}" Foreground="Gray" Margin="0,10"/>
+        
+        <Button Content="Run Model" Width="100" HorizontalAlignment="Left"/>
+    </StackPanel>
+</Window>

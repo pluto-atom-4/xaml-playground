@@ -1,0 +1,42 @@
+﻿# Ignore Visual Studio temporary files, build results, and user-specific files
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider/JetBrains project files
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other common ignores
+*.log
+*.vs/
+
+# Exclude NuGet packages folder if present
+packages/
+
+# Exclude generated files
+*.g.cs
+*.g.i.cs
+*.pdb
+*.cache
+*.dbmdl
+*.bak
+*.tmp
+*.swp
+*.orig
+
+# Exclude test results
+TestResults/
+
+# Exclude publish output
+publish/
+
+# Exclude local configuration
+appsettings.*.json
+
