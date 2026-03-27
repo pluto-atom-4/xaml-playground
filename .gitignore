@@ -40,3 +40,41 @@ publish/
 # Exclude local configuration
 appsettings.*.json
 
+# Exclude Claude Code project settings
+.claude/
+
+# ============================================================
+# Security: Secrets and credential files — never commit these
+# ============================================================
+
+# Environment variable files (API keys, connection strings, tokens)
+.env
+.env.*
+*.env
+
+# Cryptographic material
+*.key
+*.pem
+*.pfx
+*.p12
+*.cer
+*.crt
+*.p7b
+
+# Generic credential/secret file names
+credentials
+credentials.json
+secrets.json
+*.secrets
+*.secret
+
+# Local developer configuration overrides with potential credentials
+appsettings.Local.json
+appsettings.local.json
+appsettings.Development.json
+appsettings.Production.json
+local.settings.json
+
+# Claude Code audit log (local only)
+.claude/audit.log
+
