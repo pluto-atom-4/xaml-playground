@@ -9,9 +9,10 @@ public class RegressionService
 
     public RegressionService()
     {
-        _models.Add(new LinearRegression());
-        _models.Add(new PolynomialRegression(2));
-        _models.Add(new PolynomialRegression(3));
+        // Try to use Python.NET models; fall back to C# implementations if unavailable
+        _models.Add(new PythonLinearRegression());
+        _models.Add(new PythonPolynomialRegression(2));
+        _models.Add(new PythonPolynomialRegression(3));
     }
 
     /// <summary>
@@ -68,11 +69,6 @@ public class RegressionService
 
     private static int GetParameterCount(RegressionModel model)
     {
-        return model switch
-        {
-            LinearRegression => 2,
-            PolynomialRegression poly => poly.Degree + 1,
-            _ => 1
-        };
+        return model.ParameterCount;
     }
 }
