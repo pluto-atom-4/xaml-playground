@@ -1,19 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ScientificApp.Models;
 
 namespace ScientificApp.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    public DatasetViewModel DatasetViewModel { get; } = new();
-    public RegressionViewModel RegressionViewModel { get; } = new();
+    // Expose services for all ViewModels
+    public RegressionService RegressionService { get; } = new();
+    public SampleData SampleData { get; } = new();
+    
+    public DatasetViewModel DatasetViewModel { get; }
+    public RegressionViewModel RegressionViewModel { get; }
     public MetricsViewModel MetricsViewModel { get; } = new();
 
     [ObservableProperty]
-    private string _statusMessage = "Phase 2: Regression Model Comparison";
+    private string _statusMessage = "Phase 2 & 3: Regression Analysis & Visualization";
 
     public MainViewModel()
     {
+        // Create ViewModels with shared services
+        DatasetViewModel = new DatasetViewModel(SampleData);
+        RegressionViewModel = new RegressionViewModel(RegressionService);
+        
         // Wire up workflow: when dataset loads, enable regression training
         // This will be enhanced in Phase 3 with async notifications
     }
