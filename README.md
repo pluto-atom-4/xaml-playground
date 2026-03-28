@@ -1,6 +1,6 @@
 # Scientific App: Desktop Statistical Analysis Platform
 
-> **A proof of learning from [HarvardX CS109x: Introduction to Data Science with Python](https://www.edx.org/learn/data-science-with-python)**
+> **A proof of learning from [HarvardX CS109x: Introduction to Data Science with Python](https://www.edx.org/search?q=HarvardX%20CS109x:%20Introduction%20to%20Data%20Science%20with%20Python)**
 > 
 > Demonstrating mastery of data science concepts through professional XAML/WPF desktop application development, enhanced with AI-assisted engineering practices.
 
