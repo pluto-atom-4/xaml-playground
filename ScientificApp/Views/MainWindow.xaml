@@ -5,13 +5,117 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScientificApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel Margin="20">
-        <TextBlock Text="Analysis Tool" FontSize="20" FontWeight="Bold"/>
-        
-        <!-- This binds to the StatusMessage in our ViewModel -->
-        <TextBlock Text="{Binding StatusMessage}" Foreground="Gray" Margin="0,10"/>
-        
-        <Button Content="Run Model" Width="100" HorizontalAlignment="Left"/>
-    </StackPanel>
+        Title="Scientific App - Phase 2: Regression Model Comparison" 
+        Height="700" Width="1000"
+        Background="#F5F5F5">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="20">
+            <TextBlock Text="{Binding StatusMessage}" 
+                       FontSize="18" FontWeight="Bold" Foreground="White"/>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel: Dataset Selection -->
+            <Border Grid.Column="0" Background="White" Margin="0,0,10,0" Padding="15">
+                <StackPanel>
+                <TextBlock Text="1. SELECT DATASET" FontSize="14" FontWeight="Bold" Foreground="#2C3E50"/>
+                <TextBlock Text="{Binding DatasetViewModel.DatasetInfo}" 
+                           Foreground="Gray" FontSize="11" Margin="0,10,0,5" TextWrapping="Wrap"/>
+
+                <Button Command="{Binding DatasetViewModel.LoadLinearDataCommand}"
+                        Content="Linear Data (50 pts)" 
+                        Padding="10" Margin="0,5" Background="#3498DB" Foreground="White"/>
+                <Button Command="{Binding DatasetViewModel.LoadQuadraticDataCommand}"
+                        Content="Quadratic Data (50 pts)" 
+                        Padding="10" Margin="0,5" Background="#3498DB" Foreground="White"/>
+                <Button Command="{Binding DatasetViewModel.LoadCubicDataCommand}"
+                        Content="Cubic Data (50 pts)" 
+                        Padding="10" Margin="0,5" Background="#3498DB" Foreground="White"/>
+
+                <TextBlock Text="{Binding DatasetViewModel.DataPointCount, StringFormat='Points: {0}'}" 
+                           Foreground="Gray" Margin="0,15,0,0" FontSize="11"/>
+
+                <!-- Model Selection -->
+                <TextBlock Text="2. SELECT MODELS" FontSize="14" FontWeight="Bold" 
+                           Foreground="#2C3E50" Margin="0,20,0,10"/>
+
+                <ItemsControl ItemsSource="{Binding RegressionViewModel.AvailableModels}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Name}" 
+                                     IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                     Margin="0,5" Foreground="#2C3E50"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Train Button -->
+                <Button Command="{Binding TrainAndCompareCommand}"
+                        Content="TRAIN MODELS" 
+                        Padding="10" Margin="0,20,0,0" 
+                        Background="#27AE60" Foreground="White"
+                        FontWeight="Bold" FontSize="12"/>
+
+                <TextBlock Text="{Binding RegressionViewModel.StatusMessage}" 
+                           Foreground="Gray" FontSize="10" Margin="0,10,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Middle Panel: Visualization Placeholder -->
+            <Border Grid.Column="1" Background="White" Margin="10,0,10,0" Padding="15">
+                <Grid>
+                    <TextBlock Text="Data Visualization (Phase 3)" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="16" Foreground="Gray"/>
+                </Grid>
+            </Border>
+
+            <!-- Right Panel: Metrics Table -->
+            <Border Grid.Column="2" Background="White" Margin="10,0,0,0" Padding="15">
+                <StackPanel>
+                <TextBlock Text="3. MODEL METRICS" FontSize="14" FontWeight="Bold" Foreground="#2C3E50"/>
+                
+                <TextBlock Text="{Binding MetricsViewModel.BestModel, StringFormat='Best: {0}'}" 
+                           Foreground="#27AE60" FontWeight="Bold" Margin="0,10,0,5"/>
+
+                <DataGrid ItemsSource="{Binding MetricsViewModel.MetricsTable}"
+                         AutoGenerateColumns="False" 
+                         CanUserAddRows="False" CanUserDeleteRows="False"
+                         Background="White" Foreground="#2C3E50"
+                         FontSize="11" Margin="0,10,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Model" Binding="{Binding ModelName}" Width="120"/>
+                        <DataGridTextColumn Header="AIC" Binding="{Binding AICDisplay}" Width="60"/>
+                        <DataGridTextColumn Header="R²" Binding="{Binding RSquaredDisplay}" Width="50"/>
+                        <DataGridTextColumn Header="RMSE" Binding="{Binding RMSEDisplay}" Width="60"/>
+                        <DataGridTextColumn Header="Params" Binding="{Binding Parameters}" Width="50"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock Text="Lower AIC = Better model" 
+                           Foreground="Gray" FontSize="9" Margin="0,15,0,0" FontStyle="Italic"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Footer -->
+        <Border Grid.Row="2" Background="#ECF0F1" Padding="20" BorderThickness="0,1,0,0" BorderBrush="#BDC3C7">
+            <TextBlock Text="Phase 2: Regression Model Selection | Load dataset → Select models → Train → Compare metrics"
+                      FontSize="10" Foreground="Gray"/>
+        </Border>
+    </Grid>
 </Window>
