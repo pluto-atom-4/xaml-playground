@@ -7,7 +7,7 @@ namespace ScientificApp.ViewModels;
 
 public partial class RegressionViewModel : ObservableObject
 {
-    private readonly RegressionService _service = new();
+    private readonly RegressionService _service;
     private List<DataPoint> _currentData = [];
 
     [ObservableProperty]
@@ -19,8 +19,9 @@ public partial class RegressionViewModel : ObservableObject
     [ObservableProperty]
     private string statusMessage = "Select models and click Train";
 
-    public RegressionViewModel()
+    public RegressionViewModel(RegressionService regressionService)
     {
+        _service = regressionService ?? throw new ArgumentNullException(nameof(regressionService));
         InitializeModels();
     }
 

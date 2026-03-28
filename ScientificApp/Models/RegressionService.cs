@@ -71,4 +71,27 @@ public class RegressionService
     {
         return model.ParameterCount;
     }
+
+    /// <summary>
+    /// Get model by index.
+    /// </summary>
+    public RegressionModel GetModel(int index)
+    {
+        if (index < 0 || index >= _models.Count)
+            throw new ArgumentOutOfRangeException(nameof(index), "Model index out of range");
+        return _models[index];
+    }
+
+    /// <summary>
+    /// Get model name by index.
+    /// </summary>
+    public string GetModelName(int index)
+    {
+        return GetModel(index).Name;
+    }
+
+    /// <summary>
+    /// Get number of models.
+    /// </summary>
+    public int GetModelCount() => _models.Count;
 }
