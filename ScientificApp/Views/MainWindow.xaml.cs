@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ScientificApp.ViewModels;
+using ScientificApp.Models;
 
 namespace ScientificApp.Views;
 
@@ -11,7 +12,14 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-         // This connects the UI to your logic
-        DataContext = new MainViewModel(); 
+        // This connects the UI to your logic
+        var mainViewModel = new MainViewModel();
+        DataContext = mainViewModel;
+
+        // Initialize VisualizationView with services
+        VisualizationViewControl.InitializeViewModel(
+            mainViewModel.RegressionService,
+            mainViewModel.SampleData
+        );
     }
 }
