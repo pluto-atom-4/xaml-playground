@@ -9,13 +9,15 @@ public class PolynomialRegression : RegressionModel
     public int Degree { get; private set; }
     public double[] Coefficients { get; private set; } = [];
 
+    public override string Name => $"Polynomial (degree {Degree})";
+    public override int ParameterCount => Degree + 1;
+
     public PolynomialRegression(int degree = 2)
     {
         if (degree < 1 || degree > 5)
             throw new ArgumentException("Degree must be between 1 and 5");
 
         Degree = degree;
-        Name = $"Polynomial (degree {degree})";
     }
 
     public override void Fit(List<DataPoint> data)

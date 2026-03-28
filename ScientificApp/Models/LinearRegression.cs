@@ -8,10 +8,8 @@ public class LinearRegression : RegressionModel
     public double Intercept { get; private set; }
     public double Slope { get; private set; }
 
-    public LinearRegression()
-    {
-        Name = "Linear Regression";
-    }
+    public override string Name => "Linear Regression";
+    public override int ParameterCount => 2;
 
     public override void Fit(List<DataPoint> data)
     {

@@ -5,8 +5,9 @@ namespace ScientificApp.Models;
 /// </summary>
 public abstract class RegressionModel
 {
-    public string Name { get; protected set; } = "Model";
+    public abstract string Name { get; }
     public List<DataPoint> Data { get; protected set; } = [];
+    public abstract int ParameterCount { get; }
 
     public abstract void Fit(List<DataPoint> data);
     public abstract double Predict(double x);
