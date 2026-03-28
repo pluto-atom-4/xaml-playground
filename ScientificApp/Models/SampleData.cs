@@ -1,15 +1,18 @@
 namespace ScientificApp.Models;
 
 /// <summary>
-/// Generates sample datasets for regression analysis.
+/// Manages sample datasets for regression analysis.
+/// Tracks currently loaded dataset for visualization.
 /// </summary>
-public static class SampleData
+public class SampleData
 {
+    private List<DataPoint> _currentData = [];
+
     /// <summary>
     /// Generate synthetic linear data with noise.
     /// Y = 2 + 0.5*X + noise
     /// </summary>
-    public static List<DataPoint> GenerateLinearData(int count = 50, double noiseStdDev = 1.5)
+    public List<DataPoint> GenerateLinearData(int count = 50, double noiseStdDev = 1.5)
     {
         var random = new Random(42); // Fixed seed for reproducibility
         var data = new List<DataPoint>();
@@ -22,6 +25,7 @@ public static class SampleData
             data.Add(new DataPoint(x, y));
         }
 
+        _currentData = new List<DataPoint>(data);
         return data;
     }
 
@@ -29,7 +33,7 @@ public static class SampleData
     /// Generate synthetic quadratic data with noise.
     /// Y = 1 + 0.1*X + 0.05*X² + noise
     /// </summary>
-    public static List<DataPoint> GenerateQuadraticData(int count = 50, double noiseStdDev = 2.0)
+    public List<DataPoint> GenerateQuadraticData(int count = 50, double noiseStdDev = 2.0)
     {
         var random = new Random(42);
         var data = new List<DataPoint>();
@@ -42,6 +46,7 @@ public static class SampleData
             data.Add(new DataPoint(x, y));
         }
 
+        _currentData = new List<DataPoint>(data);
         return data;
     }
 
@@ -49,7 +54,7 @@ public static class SampleData
     /// Generate synthetic cubic data with noise.
     /// Y = 0.01*X³ - 0.5*X + noise
     /// </summary>
-    public static List<DataPoint> GenerateCubicData(int count = 50, double noiseStdDev = 3.0)
+    public List<DataPoint> GenerateCubicData(int count = 50, double noiseStdDev = 3.0)
     {
         var random = new Random(42);
         var data = new List<DataPoint>();
@@ -62,8 +67,14 @@ public static class SampleData
             data.Add(new DataPoint(x, y));
         }
 
+        _currentData = new List<DataPoint>(data);
         return data;
     }
+
+    /// <summary>
+    /// Get currently loaded dataset.
+    /// </summary>
+    public List<DataPoint> GetCurrentData() => new List<DataPoint>(_currentData);
 }
 
 /// <summary>
