@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScientificApp"
         xmlns:views="clr-namespace:ScientificApp.Views"
+        xmlns:oxyplot="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="Scientific App - Phase 2 &amp; 3: Regression Analysis" 
         Height="750" Width="1200"
@@ -80,13 +81,17 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- Middle Panel: Data Info -->
+                        <!-- Middle Panel: Data Preview -->
                         <Border Grid.Column="1" Background="White" Margin="10,0,10,0" Padding="15">
-                            <Grid>
-                                <TextBlock Text="Data Overview (Phase 2)" 
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                                           FontSize="16" Foreground="Gray"/>
-                            </Grid>
+                            <StackPanel>
+                                <TextBlock Text="DATA PREVIEW" FontSize="14" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+                                <oxyplot:PlotView Model="{Binding DatasetViewModel.PreviewPlotModel}" 
+                                                  Height="300" 
+                                                  Background="White"
+                                                  Margin="0,0,0,10"/>
+                                <TextBlock Text="{Binding DatasetViewModel.DatasetInfo}" 
+                                           Foreground="Gray" FontSize="10" TextWrapping="Wrap"/>
+                            </StackPanel>
                         </Border>
 
                         <!-- Right Panel: Metrics Table -->
