@@ -1,0 +1,112 @@
+<UserControl x:Class="ScientificApp.Views.VisualizationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             Background="White">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0"
+                   Text="Model Visualization"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10" />
+
+        <!-- Controls -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <!-- Model Selector -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,20,0">
+                <TextBlock Text="Select Model:" Margin="0,0,10,0" VerticalAlignment="Center" />
+                <ComboBox ItemsSource="{Binding AvailableModels}"
+                          SelectedIndex="{Binding SelectedModelIndex}"
+                          Width="200"
+                          Height="30" />
+            </StackPanel>
+
+            <!-- Generate Button -->
+            <Button Content="Generate Charts"
+                    Command="{Binding GenerateChartsCommand}"
+                    IsEnabled="{Binding IsGenerating, Converter={StaticResource InverseBoolConverter}}"
+                    Padding="15,5"
+                    Height="30" />
+
+            <!-- Loading Indicator -->
+            <TextBlock Text="Generating..."
+                       Margin="20,0,0,0"
+                       VerticalAlignment="Center"
+                       Visibility="{Binding IsGenerating, Converter={StaticResource BoolToVisibilityConverter}}"
+                       Foreground="Blue"
+                       FontStyle="Italic" />
+        </StackPanel>
+
+        <!-- Charts Container -->
+        <Grid Grid.Row="2" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Residuals Plot -->
+            <Grid Grid.Column="0" Margin="0,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Residuals Plot"
+                           FontWeight="Bold"
+                           Margin="0,0,0,5" />
+
+                <oxy:PlotView Grid.Row="1"
+                              Model="{Binding ResidualsPlot}"
+                              Background="White"
+                              BorderBrush="LightGray"
+                              BorderThickness="1" />
+            </Grid>
+
+            <!-- Predictions Curve -->
+            <Grid Grid.Column="1" Margin="10,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Predictions Curve"
+                           FontWeight="Bold"
+                           Margin="0,0,0,5" />
+
+                <oxy:PlotView Grid.Row="1"
+                              Model="{Binding PredictionsPlot}"
+                              Background="White"
+                              BorderBrush="LightGray"
+                              BorderThickness="1" />
+            </Grid>
+        </Grid>
+
+        <!-- Status and Statistics -->
+        <StackPanel Grid.Row="3" Margin="0,10,0,0">
+            <!-- Status Message -->
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="DarkGreen"
+                       Margin="0,0,0,10"
+                       TextWrapping="Wrap" />
+
+            <!-- Residual Statistics -->
+            <TextBlock Text="{Binding ResidualStats}"
+                       FontFamily="Courier New"
+                       FontSize="11"
+                       Foreground="DarkBlue"
+                       Background="WhiteSmoke"
+                       Padding="10"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+    </Grid>
+</UserControl>
