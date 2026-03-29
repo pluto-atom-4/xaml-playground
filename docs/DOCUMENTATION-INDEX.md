@@ -55,6 +55,23 @@ Complete reference for Phase 2 implementation of the Scientific App.
   - Success metrics
   - **👉 High-level reference**
 
+### Phase 3: Python Integration 🐍
+- **[python-backend.md](./python-backend.md)** (32 KB)
+  - Python.NET architecture and design decisions
+  - Complete API reference for all 4 functions
+  - Type conversion bridge documentation
+  - 10-step data flow walkthrough
+  - Integration examples (PythonLinearRegression, PythonPolynomialRegression)
+  - Error handling and graceful fallback patterns
+  - Troubleshooting guide (4 common issues)
+  - Performance benchmarks and optimization tips
+  - **👉 Reference for Python backend integration**
+
+- **[PHASE3-QUICK-REFERENCE.md](./PHASE3-QUICK-REFERENCE.md)** (Quick ref for Phase 3)
+  - Quick API reference
+  - Building & running with Python backend
+  - Common issues and solutions
+
 ---
 
 ## 🎯 Quick Navigation by Role

@@ -268,7 +268,89 @@ ScientificApp/
 | Dependency Injection | ⭐ (web boundaries) | ⭐⭐⭐⭐⭐ (single process) |
 | **Decision:** | Considered | **✅ Chosen** |
 
-**Key Files:** `PythonEngine.cs`, `python_backend/`, `RegressionService.cs`
+**Python Backend Architecture**
+
+The `python_backend/analysis.py` module provides four core statistical functions:
+
+```python
+┌──────────────────────────────────────────────┐
+│         analysis.py (NumPy Backend)          │
+├──────────────────────────────────────────────┤
+│                                              │
+│  linear_regression(x, y)                     │
+│  → Returns: {intercept, slope, success}     │
+│                                              │
+│  polynomial_regression(x, y, degree)        │
+│  → Returns: {coefficients[], success}       │
+│                                              │
+│  calculate_metrics(y_true, y_pred, params)  │
+│  → Returns: {r_squared, rmse, aic, success} │
+│                                              │
+│  evaluate_polynomial(coeffs, x_values)      │
+│  → Returns: {predictions[], success}        │
+│                                              │
+└──────────────────────────────────────────────┘
+```
+
+**Data Flow: From UI to Python and Back**
+
+```
+1. USER INTERACTION (View)
+   └─ User clicks "TRAIN MODELS"
+
+2. COMMAND EXECUTION (ViewModel)
+   └─ RegressionViewModel.TrainModelsCommand.ExecuteAsync()
+   └─ Calls: RegressionService.TrainModels(data, selectedModels)
+
+3. SERVICE ORCHESTRATION (Model)
+   └─ For each model (Linear, Polynomial D2, Polynomial D3):
+      ├─ Extract X/Y arrays from DataPoint list
+      ├─ Call model.Fit(data)
+      └─ Compute metrics using RSquared, RMSE, AIC
+
+4. PYTHON BACKEND ATTEMPT (PythonBackend Singleton)
+   └─ PythonBackend.CallFunction("linear_regression", xData, yData)
+      ├─ Lock acquired (thread-safe GIL management)
+      ├─ Convert C# List<double> → Python list
+      ├─ Call: _analysisModule.linear_regression(...) 
+      ├─ Receive: Python dict with results
+      └─ Convert Python dict → C# Dictionary<string, object>
+
+5. PYTHON EXECUTION (analysis.py)
+   └─ linear_regression() receives (x_data, y_data)
+      ├─ Convert lists to NumPy arrays (optimized C extension)
+      ├─ Compute: n*Σ(xy) - Σx*Σy / denominator
+      ├─ Calculate intercept and slope
+      └─ Return: {'success': True, 'intercept': val, 'slope': val}
+
+6. C# EXTRACTION
+   └─ Extract intercept and slope from returned dict
+   └─ Store in model object (_intercept, _slope fields)
+
+7. FALLBACK (if Python unavailable or error)
+   └─ Same algorithm implemented in pure C#
+   └─ Result identical; performance slightly lower but acceptable
+
+8. METRICS COMPUTATION (C#)
+   └─ Call model.Predict(x) for each training point
+   └─ Calculate R² = 1 - (Σ(y_true - y_pred)² / Σ(y_true - ȳ)²)
+   └─ Calculate RMSE = √(Σ(y_true - y_pred)² / n)
+   └─ Calculate AIC = n*ln(RSS/n) + 2k
+
+9. RESULTS BINDING (ViewModel → View)
+   └─ ObservableProperty raises PropertyChanged
+   └─ XAML binding updates UI with metrics table
+   └─ User sees: Model name, AIC, R², RMSE, Parameter count
+
+10. VISUALIZATION (Optional Tab Click)
+    └─ VisualizationViewModel generates charts
+    └─ OxyPlot renders residual plots
+    └─ Prediction curves overlay training data
+```
+
+**Key Files:** `PythonEngine.cs`, `python_backend/analysis.py`, `RegressionService.cs`
+
+**See Also:** `docs/python-backend.md` for detailed API reference and integration guide
 
 ---
 
